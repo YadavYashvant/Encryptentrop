@@ -25,8 +25,11 @@ import androidx.core.net.toUri
 import com.example.encrytentrop.R
 import com.example.encrytentrop.components.NeonButton
 import com.example.encrytentrop.components.ScaleButton
+import com.example.encrytentrop.utils.calculateEntropy
 import com.example.encrytentrop.utils.extractColorsFromImage
+import com.example.encrytentrop.utils.generateKeyFromEntropyAndColors
 import java.io.File
+import kotlin.math.log
 
 @Composable
 fun MainContent(
@@ -36,6 +39,7 @@ fun MainContent(
 ) {
     val context = LocalContext.current
     var textState by remember { mutableStateOf(TextFieldValue("")) }
+    var encryptedTextState by remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         modifier = modifier
@@ -130,7 +134,8 @@ fun MainContent(
                         imageUriState.value?.let { uri ->
                             val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
                             val colors = extractColorsFromImage(bitmap)
-                            textState = TextFieldValue(encryptText(textState.text, colors))
+                            val encryptedText = encryptText(textState.text, colors)
+                            textState = TextFieldValue(encryptedText)
                         }
                     },
                     modifier = Modifier
@@ -150,8 +155,9 @@ fun MainContent(
 }
 
 fun encryptText(text: String, colors: List<Int>): String {
-    val colorString = colors.joinToString("") { it.toString() }
+    val entropy = calculateEntropy(colors)
+    val key = generateKeyFromEntropyAndColors(entropy, colors)
     return text.mapIndexed { index, char ->
-        char.code.xor(colorString[index % colorString.length].code).toChar()
+        char.code.xor(key[index % key.length].code).toChar()
     }.joinToString("")
 }

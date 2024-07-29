@@ -134,10 +134,10 @@ fun MainContent(
                         // For now, we are just reversing the text
                         textState = TextFieldValue(encryptText(textState.text))
                     },
-                    enabled = textState.text.isNotEmpty(),
+
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.outline_lock_24),

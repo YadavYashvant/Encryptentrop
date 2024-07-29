@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -110,6 +111,7 @@ class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : In
                 alpha = alpha,
                 style = Stroke(width = borderWidth.toPx())
             )
+
         }
 
         private fun calculateGradientStartAndEndFromPressPosition(
@@ -130,7 +132,7 @@ class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : In
             // Create a linear gradient brush that animates based on the progress
             return Brush.linearGradient(
                 colors = listOf(
-                    androidx.compose.ui.graphics.Color.Cyan,
+                    androidx.compose.ui.graphics.Color.Yellow,
                     androidx.compose.ui.graphics.Color.Magenta
                 ),
                 start = startPosition,

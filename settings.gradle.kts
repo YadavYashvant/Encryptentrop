@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Encrytentrop"
+rootProject.name = "Encryptentrop"
 include(":app")
  

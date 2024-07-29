@@ -16,10 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.example.encrytentrop.animations.Neon.NeonIndication
 import com.example.encrytentrop.animations.Scale.ScaleIndication
 
 @Composable
-fun ScaleButton(
+fun NeonButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -32,7 +33,7 @@ fun ScaleButton(
             .defaultMinSize(minWidth = 76.dp, minHeight = 48.dp)
             .clickable(
                 enabled = enabled,
-                indication = ScaleIndication,
+                indication = NeonIndication(shape, 2.dp),
                 interactionSource = interactionSource,
                 onClick = onClick
             )

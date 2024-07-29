@@ -1,34 +1,135 @@
 package com.example.encrytentrop.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.example.encrytentrop.R
+import com.example.encrytentrop.components.NeonButton
 import com.example.encrytentrop.components.ScaleButton
+import java.io.File
 
 @Composable
 fun MainContent(
-    modifier: Modifier
+    modifier: Modifier,
+    imageUriState: MutableState<Uri?>,
+    onCaptureClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    var textState by remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(horizontal = 12.dp, vertical = 16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        ScaleButton(onClick = {}) {
-            Icon(Icons.Filled.ShoppingCart, "")
-            Spacer(Modifier.padding(8.dp))
-            Text(text = "Add to cart!")
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
+                Card {
+                    imageUriState.value?.let { uri ->
+                        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                        Image(bitmap = bitmap.asImageBitmap(), contentDescription = null)
+                    } ?: Text("No image captured")
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+
+                NeonButton(
+                    onClick = onCaptureClick,
+                    enabled = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.outline_photo_camera_24),
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.padding(8.dp))
+                    Text(text = "Capture Entropy")
+                }
+
+
+            }
+
         }
 
-    }
+        Spacer(Modifier.height(24.dp))
 
+        HorizontalDivider(modifier = Modifier
+            .height(2.dp)
+            .fillMaxWidth())
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Card {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Spacer(Modifier.padding(8.dp))
+
+                TextField(
+                    value = textState,
+                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = { textState = it },
+                    label = { Text("Enter text") }
+                )
+
+                Spacer(Modifier.padding(8.dp))
+
+                ScaleButton(
+                    onClick = {
+                        // Implement your encryption logic here
+                        // For now, we are just reversing the text
+                        textState = TextFieldValue(encryptText(textState.text))
+                    },
+                    enabled = textState.text.isNotEmpty(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.outline_lock_24),
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.padding(8.dp))
+                    Text(text = "Encrypt Text")
+                }
+            }
+        }
+    }
+}
+
+fun encryptText(text: String): String {
+    // Implement your encryption logic here
+    return text.reversed() // Example: simple reverse encryption
 }

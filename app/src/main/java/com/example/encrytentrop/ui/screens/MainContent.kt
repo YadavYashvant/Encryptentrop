@@ -147,7 +147,7 @@ fun MainContent(
                         contentDescription = null
                     )
                     Spacer(Modifier.padding(8.dp))
-                    Text(text = "Encrypt Text")
+                    Text(text = "Encrypt / Decrypt Text")
                 }
             }
         }

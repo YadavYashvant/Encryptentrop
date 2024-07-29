@@ -25,6 +25,7 @@ import androidx.core.net.toUri
 import com.example.encrytentrop.R
 import com.example.encrytentrop.components.NeonButton
 import com.example.encrytentrop.components.ScaleButton
+import com.example.encrytentrop.utils.extractColorsFromImage
 import java.io.File
 
 @Composable
@@ -64,7 +65,6 @@ fun MainContent(
 
                 Spacer(Modifier.height(16.dp))
 
-
                 NeonButton(
                     onClick = onCaptureClick,
                     enabled = true,
@@ -79,10 +79,7 @@ fun MainContent(
                     Spacer(Modifier.padding(8.dp))
                     Text(text = "Capture Entropy")
                 }
-
-
             }
-
         }
 
         Spacer(Modifier.height(24.dp))
@@ -130,11 +127,12 @@ fun MainContent(
 
                 ScaleButton(
                     onClick = {
-                        // Implement your encryption logic here
-                        // For now, we are just reversing the text
-                        textState = TextFieldValue(encryptText(textState.text))
+                        imageUriState.value?.let { uri ->
+                            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                            val colors = extractColorsFromImage(bitmap)
+                            textState = TextFieldValue(encryptText(textState.text, colors))
+                        }
                     },
-
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
@@ -151,7 +149,9 @@ fun MainContent(
     }
 }
 
-fun encryptText(text: String): String {
-    // Implement your encryption logic here
-    return text.reversed() // Example: simple reverse encryption
+fun encryptText(text: String, colors: List<Int>): String {
+    val colorString = colors.joinToString("") { it.toString() }
+    return text.mapIndexed { index, char ->
+        char.code.xor(colorString[index % colorString.length].code).toChar()
+    }.joinToString("")
 }

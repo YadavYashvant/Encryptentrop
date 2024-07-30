@@ -2,6 +2,8 @@ package com.example.encrytentrop.utils
 
 import kotlin.math.log2
 
+import kotlin.random.Random
+
 fun calculateEntropy(colors: List<Int>): Double {
     val colorFrequency = colors.groupingBy { it }.eachCount()
     val totalColors = colors.size.toDouble()
@@ -11,8 +13,9 @@ fun calculateEntropy(colors: List<Int>): Double {
     }
 }
 
-fun generateKeyFromEntropyAndColors(entropy: Double, colors: List<Int>): String {
+fun generateKeyFromEntropyColorsAndRandomness(entropy: Double, colors: List<Int>): String {
     val colorString = colors.joinToString("") { it.toString() }
     val keyLength = (entropy * 10).toInt()
-    return (1..keyLength).map { (it % 256).toChar() }.joinToString("") + colorString
+    val randomString = (1..keyLength).map { Random.nextInt(0, 256).toChar() }.joinToString("")
+    return randomString + colorString
 }

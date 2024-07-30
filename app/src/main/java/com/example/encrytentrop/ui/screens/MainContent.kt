@@ -27,7 +27,7 @@ import com.example.encrytentrop.components.NeonButton
 import com.example.encrytentrop.components.ScaleButton
 import com.example.encrytentrop.utils.calculateEntropy
 import com.example.encrytentrop.utils.extractColorsFromImage
-import com.example.encrytentrop.utils.generateKeyFromEntropyAndColors
+import com.example.encrytentrop.utils.generateKeyFromEntropyColorsAndRandomness
 import java.io.File
 import kotlin.math.log
 
@@ -156,7 +156,7 @@ fun MainContent(
 
 fun encryptText(text: String, colors: List<Int>): String {
     val entropy = calculateEntropy(colors)
-    val key = generateKeyFromEntropyAndColors(entropy, colors)
+    val key = generateKeyFromEntropyColorsAndRandomness(entropy, colors)
     return text.mapIndexed { index, char ->
         char.code.xor(key[index % key.length].code).toChar()
     }.joinToString("")

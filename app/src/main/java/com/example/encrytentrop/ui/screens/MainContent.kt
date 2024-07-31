@@ -135,7 +135,7 @@ fun MainContent(
                             val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
                             val colors = extractColorsFromImage(bitmap)
                             val encryptedText = encryptText(textState.text, colors)
-                            textState = TextFieldValue(encryptedText)
+                            encryptedTextState = TextFieldValue(encryptedText)
                         }
                     },
                     modifier = Modifier
@@ -149,6 +149,29 @@ fun MainContent(
                     Spacer(Modifier.padding(8.dp))
                     Text(text = "Encrypt Text")
                 }
+
+                Spacer(Modifier.padding(8.dp))
+
+                ScaleButton(
+                    onClick = {
+                        imageUriState.value?.let { uri ->
+                            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                            val colors = extractColorsFromImage(bitmap)
+                            val decryptedText = decryptText(encryptedTextState.text, colors)
+                            textState = TextFieldValue(decryptedText)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.outline_lock_open_24),
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.padding(8.dp))
+                    Text(text = "Decrypt Text")
+                }
             }
         }
     }
@@ -158,6 +181,14 @@ fun encryptText(text: String, colors: List<Int>): String {
     val entropy = calculateEntropy(colors)
     val key = generateKeyFromEntropyColorsAndRandomness(entropy, colors)
     return text.mapIndexed { index, char ->
+        char.code.xor(key[index % key.length].code).toChar()
+    }.joinToString("")
+}
+
+fun decryptText(encryptedText: String, colors: List<Int>): String {
+    val entropy = calculateEntropy(colors)
+    val key = generateKeyFromEntropyColorsAndRandomness(entropy, colors)
+    return encryptedText.mapIndexed { index, char ->
         char.code.xor(key[index % key.length].code).toChar()
     }.joinToString("")
 }

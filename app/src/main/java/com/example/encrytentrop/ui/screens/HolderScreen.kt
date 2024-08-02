@@ -1,7 +1,6 @@
 package com.example.encrytentrop.ui.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.internal.composableLambda
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,6 +14,8 @@ fun HolderScreen(navController: NavController){
     NavHost(navController = navController, startDestination = "home") {
 
         composable("home") {
+
+            HomeScreen(navController)
 
         }
 

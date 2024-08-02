@@ -16,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.example.encrytentrop.ui.screens.HolderScreen
 import com.example.encrytentrop.ui.screens.MainContent
 import com.example.encrytentrop.ui.theme.EncrytentropTheme
 
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
             imageUriState = remember { mutableStateOf<Uri?>(null) }
             EncrytentropTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainContent(
+                    HolderScreen(
                         modifier = Modifier.padding(innerPadding),
                         imageUriState = imageUriState,
                         onCaptureClick = {

@@ -1,13 +1,19 @@
 package com.example.encrytentrop.ui.screens
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun HolderScreen(navController: NavController){
+fun HolderScreen(
+    modifier: Modifier,
+    imageUriState: MutableState<Uri?>,
+    onCaptureClick: () -> Unit
+){
 
     val navController = rememberNavController()
 
@@ -15,7 +21,12 @@ fun HolderScreen(navController: NavController){
 
         composable("home") {
 
-            HomeScreen(navController)
+            HomeScreen(
+                navController = navController,
+                modifier = modifier,
+                imageUriState = imageUriState,
+                onCaptureClick = onCaptureClick
+            )
 
         }
 

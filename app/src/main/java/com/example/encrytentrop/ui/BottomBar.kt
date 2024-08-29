@@ -55,17 +55,17 @@ fun BottomNavigation(
         ),
         BottomNavigationItem(
             title = "Projects",
-            selectedIcon = painterResource(id = R.drawable.baseline_menu_book_24),
-            unselectedIcon = painterResource(id = R.drawable.outline_library_books_24),
+            selectedIcon = painterResource(id = R.drawable.baseline_data_thresholding_24),
+            unselectedIcon = painterResource(id = R.drawable.outline_data_thresholding_24),
             hasNews = false,
             /*badgeCount = 0*/
         ),
-        BottomNavigationItem(
+        /*BottomNavigationItem(
             title = "Bookmarks",
             selectedIcon = painterResource(id = R.drawable.bookmark_filled),
             unselectedIcon = painterResource(id = R.drawable.bookmark_outlined),
             hasNews = true,
-        ),
+        ),*/
         BottomNavigationItem(
             title = "Settings",
             selectedIcon = painterResource(id = R.drawable.baseline_settings_24),

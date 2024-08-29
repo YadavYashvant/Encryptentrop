@@ -21,6 +21,7 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
+
         }
     ) {
         MainContent(

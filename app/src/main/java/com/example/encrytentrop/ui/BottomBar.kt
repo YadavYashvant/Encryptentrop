@@ -54,7 +54,7 @@ fun BottomNavigation(
             hasNews = false,
         ),
         BottomNavigationItem(
-            title = "Projects",
+            title = "History",
             selectedIcon = painterResource(id = R.drawable.baseline_data_thresholding_24),
             unselectedIcon = painterResource(id = R.drawable.outline_data_thresholding_24),
             hasNews = false,
